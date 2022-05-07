@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom";
 import styled from "styled-components";
 import {useUser} from "../hook/User";
 
+
 const StyledNav = styled.nav`
   display: flex;
   justify-content: center;
@@ -35,11 +36,9 @@ const StyledNavLink = styled(NavLink)`
  * <li>Login - A link that will change the url of the page to "/login"
  */
 const NavBar = () => {
-
     const {accessToken} = useUser();
 
     console.log(!!accessToken)
-
     console.log(accessToken)
 
     return (
@@ -61,7 +60,6 @@ const NavBar = () => {
                     Search
                 </StyledNavLink>
             }
-
         </StyledNav>
     );
 }

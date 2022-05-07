@@ -75,6 +75,7 @@ const Login = () => {
         refreshToken, setRefreshToken
     } = useUser();
 
+
     const {register, getValues, handleSubmit} = useForm();
 
     const submitLogin = () => {
@@ -83,7 +84,7 @@ const Login = () => {
 
         const payLoad = {
             email: email,
-            password: password
+            password: password.split('')
         }
 
         login(payLoad)
@@ -91,7 +92,9 @@ const Login = () => {
                 setAccessToken(response.data.accessToken);
                 setRefreshToken(response.data.refreshToken);
                 alert(JSON.stringify(response.data, null, 2))
-            });
+            })
+            .catch(error => alert(JSON.stringify(error.response.data, null, 2)))
+        ;
     }
 
     return (
@@ -101,7 +104,6 @@ const Login = () => {
             <input {...register("password")} type={"password"}/>
             <button onClick={ () => {
                 submitLogin();
-
                 navigate("/");
             }
             }>Login</button>

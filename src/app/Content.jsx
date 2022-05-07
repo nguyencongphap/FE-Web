@@ -8,6 +8,7 @@ import Search from "pages/Search"
 
 import WhatIsTheNumber from "../OtherComponents/WhatIsTheNumber";
 
+
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
@@ -54,6 +55,7 @@ const Content = () => {
 
                 {/*TODO: Delete path={"/number/:number"} later!!*/}
                 <Route path={"/number/:number"} element={<WhatIsTheNumber/>}/>
+
             </Routes>
         </StyledDiv>
     );

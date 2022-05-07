@@ -49,3 +49,4 @@ export async function register(registerRequest) {
 
     return Axios.request(options);
 }
+

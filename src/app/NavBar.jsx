@@ -36,31 +36,59 @@ const StyledNavLink = styled(NavLink)`
  * <li>Login - A link that will change the url of the page to "/login"
  */
 const NavBar = () => {
-    const {accessToken} = useUser();
+    const {
+        accessToken, setAccessToken,
+        refreshToken, setRefreshToken
+    } = useUser();
 
     console.log(!!accessToken)
     console.log(accessToken)
 
     return (
-        <StyledNav>
-            <StyledNavLink to="/">
-                Home
-            </StyledNavLink>
-            <StyledNavLink to="/login">
-                Login
-            </StyledNavLink>
-
-            {/*<StyledNavLink to="/search">*/}
-            {/*    Search*/}
-            {/*</StyledNavLink>*/}
-
+        <div>
             {
-                !!accessToken &&
-                <StyledNavLink to="/search">
-                    Search
-                </StyledNavLink>
+                !accessToken ?
+                    (
+                        <StyledNav>
+                            <div>
+                                <StyledNavLink to="/">
+                                    Home
+                                </StyledNavLink>
+                                <StyledNavLink to="/login">
+                                    Login
+                                </StyledNavLink>
+                            </div>
+
+                            {/*<StyledNavLink to="/search">*/}
+                            {/*    Search*/}
+                            {/*</StyledNavLink>*/}
+                        </StyledNav>
+                    )
+                    :
+                    (
+                        <StyledNav>
+                            {
+                                !!accessToken &&
+                                <div>
+                                    <StyledNavLink to="/search">
+                                        Search
+                                    </StyledNavLink>
+                                    <StyledNavLink to="/cart">
+                                        My Cart
+                                    </StyledNavLink>
+                                    <StyledNavLink to="/order/list">
+                                        Order History
+                                    </StyledNavLink>
+                                    <StyledNavLink to="/">
+                                        Logout
+                                    </StyledNavLink>
+                                </div>
+                            }
+                        </StyledNav>
+                    )
             }
-        </StyledNav>
+        </div>
+
     );
 }
 

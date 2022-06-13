@@ -1,9 +1,14 @@
+import Config from "backend/config.json";
 import React, {useEffect} from "react";
 import {useForm} from "react-hook-form";
-import Axios from "axios";
 import styled from "styled-components";
 import MovieSearchResult from "../OtherComponents/MovieSearchResult";
+import {requestGETMovies} from "../backend/movies";
 import {useUser} from "../hook/User";
+import "../App.css";
+import {useNavigate} from "react-router-dom";
+import {requestPOSTCartInsert} from "../backend/billing";
+import AddToCartQuantity from "../OtherComponents/AddToCartQuantity";
 
 const StyleDiv = styled.div`
     display: flex;
@@ -11,42 +16,18 @@ const StyleDiv = styled.div`
     font-size: 12px;
 `
 
-const StyledTable = styled.table`
-    border: black solid 1px;
-    padding: 0;
-    max-height: 20px;
-`
-
-const StyleTH = styled.th`
-    border: black solid 1px;
-    max-height: 20px;
-`
-
 const BlockDiv = styled.div`
     display: block;
 `
-
 /**
- * TODO: Change this myRequest function so that it
- * requests array of movies from our BE2 instead of requesting stuff
- * from jsonplaceholder API
+ * https://developers.themoviedb.org/3/getting-started/images
+ * It is recommended you cache this data within your application and check for updates every few days.
  */
-async function requestGETMovies(pathURL, queryParams, accessToken) {
-    const options = {
-        method: "GET", // Method type
-        baseURL: "http://localhost:8082", // Base part of URL
-        url: pathURL, // Path part of URL,
-        params: queryParams,
-        headers: {
-            Authorization: "Bearer " + accessToken
-        }
-    }
-
-    return Axios.request(options);
-}
 
 
 const Search = () => {
+
+    const navigate = useNavigate();
 
     const {
         accessToken
@@ -111,9 +92,7 @@ const Search = () => {
             direction: direction !== "" ? direction : null,
         };
 
-        console.log(movieSearchEndpointQueryParams);
-
-        requestGETMovies("/movie/search", movieSearchEndpointQueryParams, accessToken)
+        requestGETMovies(accessToken, movieSearchEndpointQueryParams)
             .then(response => setMovies(response.data.movies));
     }
 
@@ -175,54 +154,51 @@ const Search = () => {
                         // useEffect will not be executed because state doesn't change.
                         setPageNum(1);
                         getMovies(pageNum);
-                        console.log("Clicked Search Button");
                     }
                     }>Search</button>
                 </BlockDiv>
             </BlockDiv>
 
             {
-                movies.length !== 0 &&
-                <div>
-                    <StyleDiv>
-                        <StyledTable>
-                            <thead>
-                            <tr>
-                                <StyleTH>id</StyleTH>
-                                <StyleTH>title</StyleTH>
-                                <StyleTH>year</StyleTH>
-                                <StyleTH>director</StyleTH>
-                                <StyleTH>rating</StyleTH>
-                                <StyleTH>backdropPath</StyleTH>
-                                <StyleTH>posterPath</StyleTH>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {movies.map(movie => (<MovieSearchResult movie={movie}/>)) }
-                            </tbody>
-                        </StyledTable>
+                // DISPLAY MOVIES
+                !!movies &&
+                <div className="container">
+                    {
+                        movies.map((movie) => (
+                            <div key={movie.id}>
+                                <MovieSearchResult movie={movie}/>
 
-                        <BlockDiv>
+                                <div>
+                                    <button onClick={() => navigate("/movie/" + movie.id)}
+                                    >Detail</button>
+                                </div>
+
+                                <AddToCartQuantity movie={movie}/>
+                            </div>
+                        ))
+                    }
+
+                    <div className="container">
+                        <div className="container">
                             <p>Page: {pageNum}</p>
-                        </BlockDiv>
-                    </StyleDiv>
+                        </div>
 
-                    <BlockDiv>
                         <button onClick={() => {
-                            if ((pageNum - 1) >= 1) {
+                                if ((pageNum - 1) >= 1) {
                                 setPageNum((prevPageNum) => prevPageNum - 1);
                             }
-                        }}
+                            }}
                         >Back Page</button>
 
                         <button onClick={() => {
-                            if ((pageNum + 1) >= 1) {
+                                if ((pageNum + 1) >= 1) {
                                 setPageNum((prevPageNum) => prevPageNum + 1);
                             }
-                        }}
+                            }}
                         >Next Page</button>
-                    </BlockDiv>
+                    </div>
                 </div>
+
             }
 
         </div>

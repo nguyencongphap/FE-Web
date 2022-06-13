@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import {Route, Routes} from "react-router-dom";
 
 import Register from "pages/Register";
@@ -9,7 +10,12 @@ import Search from "pages/Search"
 import WhatIsTheNumber from "../OtherComponents/WhatIsTheNumber";
 
 
-import styled from "styled-components";
+import MovieDetail from "../pages/MovieDetail";
+import ShoppingCart from "../pages/ShoppingCart";
+import OrderHistory from "../pages/OrderHistory";
+import SaleOrderDetail from "../pages/SaleOrderDetail";
+import Checkout from "../pages/Checkout";
+import OrderCompleteConfirmation from "../pages/OrderCompleteConfirmation";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -53,9 +59,12 @@ const Content = () => {
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/search" element={<Search/>}/>
 
-                {/*TODO: Delete path={"/number/:number"} later!!*/}
-                <Route path={"/number/:number"} element={<WhatIsTheNumber/>}/>
-
+                <Route path={"/movie/:id"} element={<MovieDetail/>}/>
+                <Route path={"/cart"} element={<ShoppingCart/>}/>
+                <Route path={"/order/list"} element={<OrderHistory/>}/>
+                <Route path={"/order/detail/:saleId"} element={<SaleOrderDetail/>}/>
+                <Route path={"/order/checkout"} element={<Checkout/>}/>
+                <Route path={"/order/completeConfirmation/:paymentIntentId"} element={<OrderCompleteConfirmation/>}/>
             </Routes>
         </StyledDiv>
     );

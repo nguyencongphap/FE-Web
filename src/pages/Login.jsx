@@ -100,8 +100,8 @@ const Login = () => {
     return (
         <StyledDiv>
             <h1>Login</h1>
-            <input {...register("email")} type={"email"}/>
-            <input {...register("password")} type={"password"}/>
+            <input {...register("email")} type={"email"} placeholder="Enter username"/>
+            <input {...register("password")} type={"password"} placeholder="Enter password"/>
             <button onClick={ () => {
                 submitLogin();
                 navigate("/");

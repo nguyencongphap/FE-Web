@@ -3,5 +3,20 @@
   "idm": {
     "login": "/login",
     "register": "/register"
-  }
+  },
+  "movieServiceBaseUrl": "http://localhost:8082",
+  "movie": {
+    "search": "/movie/search"
+  },
+  "billingServiceBaseUrl": "http://localhost:8083",
+  "billing": {
+    "retrieve": "/cart/retrieve",
+    "update": "/cart/update",
+    "insert": "/cart/insert",
+    "orderList": "/order/list",
+    "orderPayment": "/order/payment",
+    "orderComplete": "/order/complete"
+  },
+  "TMDB_API_IMG_BASE_URL": "https://image.tmdb.org/t/p/original/",
+  "TMDB_API_IMG_W500_BASE_URL": "https://image.tmdb.org/t/p/w500/"
 }

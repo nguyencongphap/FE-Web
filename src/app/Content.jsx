@@ -5,28 +5,27 @@ import {Route, Routes} from "react-router-dom";
 import Register from "pages/Register";
 import Login from "pages/Login";
 import Home from "pages/Home";
-import Search from "pages/Search"
-
-import WhatIsTheNumber from "../OtherComponents/WhatIsTheNumber";
+import Search from "pages/search/Search"
 
 
-import MovieDetail from "../pages/MovieDetail";
-import ShoppingCart from "../pages/ShoppingCart";
-import OrderHistory from "../pages/OrderHistory";
-import SaleOrderDetail from "../pages/SaleOrderDetail";
-import Checkout from "../pages/Checkout";
-import OrderCompleteConfirmation from "../pages/OrderCompleteConfirmation";
+import MovieDetail from "../pages/search/MovieDetail";
+import ShoppingCart from "../pages/cart/ShoppingCart";
+import OrderHistory from "../pages/order/OrderHistory";
+import SaleOrderDetail from "../pages/order/SaleOrderDetail";
+import Checkout from "../pages/cart/Checkout";
+import OrderCompleteConfirmation from "../pages/cart/OrderCompleteConfirmation";
+
+
 
 const StyledDiv = styled.div`
-  display: flex;
-  justify-content: center;
-
-  width: 100vw;
-  height: 100vh;
-  padding: 25px;
-
+  padding: 24px;
+  
   background: #ffffff;
-  box-shadow: inset 0 3px 5px -3px #000000;
+  // background: #000000;
+  
+  // height: 100vh;
+  
+  // box-shadow: inset 0 3px 5px -3px #000000;
 `
 
 /**
@@ -53,19 +52,37 @@ const StyledDiv = styled.div`
 const Content = () => {
     return (
         <StyledDiv>
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/register" element={<Register/>}/>
-                <Route path="/search" element={<Search/>}/>
+            <>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
 
-                <Route path={"/movie/:id"} element={<MovieDetail/>}/>
-                <Route path={"/cart"} element={<ShoppingCart/>}/>
-                <Route path={"/order/list"} element={<OrderHistory/>}/>
-                <Route path={"/order/detail/:saleId"} element={<SaleOrderDetail/>}/>
-                <Route path={"/order/checkout"} element={<Checkout/>}/>
-                <Route path={"/order/completeConfirmation/:paymentIntentId"} element={<OrderCompleteConfirmation/>}/>
-            </Routes>
+                    {/*<Route path="/search" element={<Search/>}/>*/}
+
+
+                    <Route path={"/search/" +
+                        "title=:title&" +
+                        "year=:year&" +
+                        "director=:director&" +
+                        "genre=:genre&" +
+                        "limit=:limit&" +
+                        "page=:page&" +
+                        "orderBy=:orderBy&" +
+                        "direction=:direction"
+                    }
+                           element={<Search/>}/>
+
+
+
+                    <Route path={"/movie/id=:id"} element={<MovieDetail/>}/>
+                    <Route path={"/cart"} element={<ShoppingCart/>}/>
+                    <Route path={"/order/list"} element={<OrderHistory/>}/>
+                    <Route path={"/order/detail/:saleId"} element={<SaleOrderDetail/>}/>
+                    <Route path={"/order/checkout"} element={<Checkout/>}/>
+                    <Route path={"/order/completeConfirmation/:paymentIntentId"} element={<OrderCompleteConfirmation/>}/>
+                </Routes>
+            </>
         </StyledDiv>
     );
 }

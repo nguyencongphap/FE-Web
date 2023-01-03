@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import {useUser} from "../hook/User";
+import {useUser} from "../../hook/User";
 import {
     requestGETOrderPayment,
-} from "../backend/billing";
+} from "../../backend/billing";
 import {loadStripe} from "@stripe/stripe-js";
 import {Elements} from "@stripe/react-stripe-js";
-import CheckoutForm from "../OtherComponents/CheckoutForm";
+import CheckoutForm from "../../OtherComponents/CheckoutForm";
 
 
 const Checkout = () => {
@@ -14,17 +14,15 @@ const Checkout = () => {
         accessToken
     } = useUser();
 
-    // Make sure to call loadStripe outside of a component’s render to avoid
-    // recreating the Stripe object on every render.
-    // This is a public sample test API key.
-    // Don’t submit any personally identifiable information in requests made with this key.
-    // Sign in to see your own test API key embedded in code samples.
+    // Here we load our app's registered public key in so that Stripe server knows which client is calling
     const stripePromise = loadStripe("pk_test_51KwvvhD1sPU1WyH4EJB0sLCmVQbyRUwzE0BhRBDXs0H3Xmy4wn9ZlkRAsxmCPY6FQIrJwuDQaYndvoMZ25NJsa8H00YA7eLkEp");
 
     const [paymentIntentId, setPaymentIntentId] = useState();
     const [clientSecret, setClientSecret] = useState();
 
     React.useEffect( () => {
+        // We call our backend to create a paymentIntent.
+        // The backend will return to us the paymentIntentId and clientSecret
         requestGETOrderPayment(accessToken)
             .then(response => {
                 console.log("Finished calling Order Payment Endpoint");

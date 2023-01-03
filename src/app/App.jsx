@@ -3,6 +3,8 @@ import Content from 'app/Content';
 import NavBar from 'app/NavBar';
 import {UserProvider} from "hook/User";
 import styled from "styled-components";
+import {Box, Grid, Stack} from "@mui/material";
+
 
 const StyledDiv = styled.div`
   display: flex;
@@ -52,10 +54,23 @@ const StyledDiv = styled.div`
 const App = () => {
     return (
         <UserProvider>
-            <StyledDiv>
+            <Stack>
                 <NavBar/>
+
                 <Content/>
-            </StyledDiv>
+            </Stack>
+
+            {/*<Grid container direction="column" spacing={10}*/}
+            {/*>*/}
+            {/*    <Box>*/}
+            {/*        <NavBar/>*/}
+            {/*    </Box>*/}
+
+            {/*    <Box>*/}
+            {/*        <Content/>*/}
+            {/*    </Box>*/}
+
+            {/*</Grid>*/}
         </UserProvider>
     );
 };

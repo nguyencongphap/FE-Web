@@ -4,6 +4,11 @@ import {
     useStripe,
     useElements
 } from "@stripe/react-stripe-js";
+import {Button, Card, CardContent, Grid, IconButton, InputLabel, TextField} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import {genreNamesToCodeNames} from "../data/genres";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 export default function CheckoutForm({paymentIntentId}) {
 
@@ -78,15 +83,39 @@ export default function CheckoutForm({paymentIntentId}) {
     };
 
     return (
-        <form id="payment-form" onSubmit={handleSubmit}>
-            <PaymentElement id="payment-element" />
-            <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-            </button>
-            {/* Show any error or success messages */}
-            {message && <div id="payment-message">{message}</div>}
-        </form>
+        <>
+            <Grid container
+                  direction="column"
+                  spacing={4}
+            >
+                <Grid item
+                      alignSelf="center"
+                      sx={{
+                          width: '50%',
+                          minWidth: 'fit-content',
+                      }}
+                >
+
+                    <Card>
+                        <CardContent>
+                            <form id="payment-form" onSubmit={handleSubmit}>
+                                <PaymentElement id="payment-element" />
+
+                                <button disabled={isLoading || !stripe || !elements} id="submit">
+                                    <span id="button-text">
+                                        {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+                                    </span>
+                                </button>
+
+                                {/* Show any error or success messages */}
+                                {message && <div id="payment-message">{message}</div>}
+                            </form>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+        </>
+
+
     );
 }

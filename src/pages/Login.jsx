@@ -4,6 +4,20 @@ import styled from "styled-components";
 import {useForm} from "react-hook-form";
 import {login} from "backend/idm";
 import {NavLink, useNavigate} from "react-router-dom";
+import {
+    Avatar,
+    Box,
+    Button,
+    Container,
+    createTheme,
+    CssBaseline,
+    Link,
+    TextField,
+    ThemeProvider,
+    Typography
+} from "@mui/material";
+import MovieFilterIcon from "@mui/icons-material/MovieFilter";
+import {constructSearchPageURLQueryStr} from "./search/Search";
 
 
 const StyledDiv = styled.div`
@@ -91,24 +105,83 @@ const Login = () => {
             .then(response => {
                 setAccessToken(response.data.accessToken);
                 setRefreshToken(response.data.refreshToken);
-                alert(JSON.stringify(response.data, null, 2))
+
+                alert(JSON.stringify(response.data.result.message, null, 2))
+
+                const queryString = constructSearchPageURLQueryStr()
+
+                console.log("queryString at Login: ", queryString)
+
+                navigate(`/search/${queryString}`)
             })
-            .catch(error => alert(JSON.stringify(error.response.data, null, 2)))
+            .catch(error => alert(JSON.stringify(error.response.data.result.message, null, 2)))
         ;
     }
 
+
     return (
-        <StyledDiv>
-            <h1>Login</h1>
-            <input {...register("email")} type={"email"} placeholder="Enter username"/>
-            <input {...register("password")} type={"password"} placeholder="Enter password"/>
-            <button onClick={ () => {
-                submitLogin();
-                navigate("/");
-            }
-            }>Login</button>
-            <p>Don't have an account? Sign up <NavLink to={"/register"}>here</NavLink></p>
-        </StyledDiv>
+        <>
+            <Container maxWidth
+                sx={{
+                    marginTop: 8,
+                    width: '50%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Typography variant="h4"
+                            sx = {{
+                                fontWeight: "bold"
+                            }}
+                >
+                    Sign in
+                </Typography>
+
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Email Address"
+                    autoComplete="email"
+                    autoFocus
+                    {...register("email")}
+                />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    {...register("password")}
+                    onKeyPress={(event) => {
+                        if (event.key === 'Enter') {
+                            submitLogin()
+                        }
+                    }}
+                />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                        mt: 3,
+                        mb: 2,
+                        backgroundColor: '#fab818',
+                        color: 'black'
+                    }}
+                    onClick={submitLogin}
+                > Sign In
+                </Button>
+                <Typography variant="body2">
+                    <p>
+                        Don't have an account? <Link href="/register" variant="body2">CREATE ONE</Link>
+                    </p>
+                </Typography>
+
+            </Container>
+        </>
     );
 }
 
